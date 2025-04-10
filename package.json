@@ -1,7 +1,7 @@
 {
   "name": "tinyphone-ui",
   "version": "0.1.0",
-  "homepage" : "http://voiceip.github.io/tinyphone-ui",
+  "homepage": "http://voiceip.github.io/tinyphone-ui",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",

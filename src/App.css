@@ -20,13 +20,22 @@ body{
   color: var(--text-primary);
 }
 
-nav.navbar{
+nav.navbar {
   display: flex;
   align-items: center;
   min-height: 65px;
   background-color: var(--primary);
   color: var(--surface);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert-danger{
+  background-color: #F2DEDE; /* very pale pink */
+  color: #8A4A4A; /* muted red */
+  padding: 15px; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  border: none;
 }
 
 .login-container{

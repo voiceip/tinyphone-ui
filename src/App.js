@@ -7,7 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import {SlideDown} from 'react-slidedown'
 import 'react-slidedown/lib/slidedown.css'
 import {callStatus, dial, dtmf, getAccounts, getSoftphoneStatus, hangUp, hold, loginSync, logout, unHold, updateCallStatus} from './actions';
-import {ToastContainer} from 'react-toastify';
+import {ToastContainer, Bounce} from 'react-toastify';
 import logo from './logo.png';
 import {CALL_TERMINATE, CONFIRMED, DISCONNECTED, LOADER, EARLY, LOCAL_HOLD} from './constant';
 import './App.css';
@@ -359,7 +359,19 @@ function App() {
   },[dispatch])
   return (
     <Fragment>
-      <ToastContainer/>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <header-nav>
         <nav className="navbar" style={{backgroundColor: "rgb(40, 116, 240)"}}>
             <div className="navbar-logo">
