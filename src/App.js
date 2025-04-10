@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState, useCallback} from 'react';
+import React, {Fragment, useEffect, useState, useCallback, useRef} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -7,7 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import {SlideDown} from 'react-slidedown'
 import 'react-slidedown/lib/slidedown.css'
 import {callStatus, dial, dtmf, getAccounts, getSoftphoneStatus, hangUp, hold, loginSync, logout, unHold, updateCallStatus} from './actions';
-import {ToastContainer} from 'react-toastify';
+import {ToastContainer, Bounce} from 'react-toastify';
 import logo from './logo.png';
 import {CALL_TERMINATE, CONFIRMED, DISCONNECTED, LOADER, EARLY, LOCAL_HOLD} from './constant';
 import './App.css';
@@ -136,6 +136,8 @@ function WSEventStream() {
 function Dialer() {
     const dispatch = useDispatch();
     const loading = useSelector(state => state.loading, shallowEqual);
+    const inputRef = useRef(null);
+
     const [phoneNumber, setPhoneNumber] = useState("");
     const isCallDialed = useSelector(state => state.callDialed, shallowEqual);
     const accountName = useSelector(state => state.accountName, shallowEqual);
@@ -156,7 +158,9 @@ function Dialer() {
     }
 
     function clear() {
-        setPhoneNumber("");
+        if (phoneNumber.length > 0) {
+            setPhoneNumber(phoneNumber.slice(0, -1));
+          }
     }
 
     const dialNumber = () => {
@@ -236,6 +240,22 @@ function Dialer() {
         return () => clearInterval(interval);
     }, [isCallDialed]);
 
+    useEffect(() => {
+      if (inputRef.current) {
+        const input = inputRef.current;
+        
+        if (input.scrollWidth > input.clientWidth) {
+          input.classList.add('overflowing');
+          input.scrollLeft = input.scrollWidth;
+        } else {
+          input.classList.remove('overflowing');
+        }
+      } 
+    }, [phoneNumber]);
+
+
+
+
     return (
         <div className="dialer">
             <WSEventStream/>
@@ -256,7 +276,7 @@ function Dialer() {
             </div>
             ))}
 
-          
+           
             <SlideDown><form><input type="display" value={phoneNumber} onChange={(ev) => setPhoneNumber(ev.target.value)}/></form></SlideDown>
            
             {loading && 
@@ -339,7 +359,19 @@ function App() {
   },[dispatch])
   return (
     <Fragment>
-      <ToastContainer/>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <header-nav>
         <nav className="navbar" style={{backgroundColor: "rgb(40, 116, 240)"}}>
             <div className="navbar-logo">
